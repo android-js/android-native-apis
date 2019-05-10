@@ -1,4 +1,4 @@
-package com.android.js;
+package com.android.js.other;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -116,7 +116,7 @@ public class Utils {
         SharedPreferences prefs = applicationContext.getSharedPreferences("NODEJS_MOBILE_PREFS", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong("NODEJS_MOBILE_APK_LastUpdateTime", lastUpdateTime);
-        editor.commit();
+        editor.apply();
     }
 
     // Returns the address of the first network interface that is running
