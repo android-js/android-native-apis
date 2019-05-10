@@ -1,6 +1,7 @@
 package com.android.js;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -40,24 +41,24 @@ public class AndroidJSWebviewActivity extends AppCompatActivity {
     public static boolean _startedNodeAlready=false;
 
 
-    public void start_node(){
+    public void start_node(final Activity activity){
         if( !this._startedNodeAlready ) {
             this._startedNodeAlready=true;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     //The path where we expect the node project to be at runtime.
-                    String nodeDir=getApplicationContext().getFilesDir().getAbsolutePath()+"/myapp";
-                    if (Utils.wasAPKUpdated(getApplicationContext())) {
+                    String nodeDir=activity.getApplicationContext().getFilesDir().getAbsolutePath()+"/myapp";
+                    if (Utils.wasAPKUpdated(activity.getApplicationContext())) {
                         //Recursively delete any existing nodejs-project.
                         File nodeDirReference=new File(nodeDir);
                         if (nodeDirReference.exists()) {
                             Utils.deleteFolderRecursively(new File(nodeDir));
                         }
                         //Copy the node project from assets into the application's data path.
-                        Utils.copyAssetFolder(getApplicationContext().getAssets(), "myapp", nodeDir);
+                        Utils.copyAssetFolder(activity.getApplicationContext().getAssets(), "myapp", nodeDir);
 
-                        Utils.saveLastUpdateTime(getApplicationContext());
+                        Utils.saveLastUpdateTime(activity.getApplicationContext());
                     }
                     startNodeWithArguments(new String[]{"node",
                             nodeDir+"/main.js"
@@ -67,26 +68,26 @@ public class AndroidJSWebviewActivity extends AppCompatActivity {
         }
     }
 
-    public void configureWebview(WebView myWebView, int iconId){
-        myWebView.addJavascriptInterface(new JavaWebviewBridge(this, myWebView, iconId), "android");
+    public void configureWebview(int iconId){
+        this.myWebView.addJavascriptInterface(new JavaWebviewBridge(this, this.myWebView, iconId), "android");
 
 
-        myWebView.getSettings().setJavaScriptEnabled(true);
-        myWebView.getSettings().setDomStorageEnabled(true);
-        myWebView.getSettings().setAllowFileAccess(true);
-        myWebView.setWebContentsDebuggingEnabled(true);
-        myWebView.setWebViewClient(new WebViewClient());
-        myWebView.getSettings().setAllowFileAccessFromFileURLs(true);
-        myWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
-        myWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        this.myWebView.getSettings().setJavaScriptEnabled(true);
+        this.myWebView.getSettings().setDomStorageEnabled(true);
+        this.myWebView.getSettings().setAllowFileAccess(true);
+        this.myWebView.setWebContentsDebuggingEnabled(true);
+        this.myWebView.setWebViewClient(new WebViewClient());
+        this.myWebView.getSettings().setAllowFileAccessFromFileURLs(true);
+        this.myWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        this.myWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
 
-        myWebView.loadUrl("file:///android_asset/myapp/views/index.html");
+        this.myWebView.loadUrl("file:///android_asset/myapp/views/index.html");
 
 
 
         // entertain webview camera request
 
-        myWebView.setWebChromeClient(new WebChromeClient() {
+        this.myWebView.setWebChromeClient(new WebChromeClient() {
 
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
