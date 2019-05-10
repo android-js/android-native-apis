@@ -1,4 +1,4 @@
-package com.android.js;
+package com.android.js.other;
 
 import android.Manifest;
 import android.app.Activity;

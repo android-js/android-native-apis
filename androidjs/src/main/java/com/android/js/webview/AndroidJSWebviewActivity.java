@@ -1,16 +1,16 @@
-package com.android.js;
+package com.android.js.webview;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+
+import com.android.js.other.Utils;
 
 import java.io.File;
 
@@ -42,8 +42,8 @@ public class AndroidJSWebviewActivity extends AppCompatActivity {
 
 
     public void start_node(final Activity activity){
-        if( !this._startedNodeAlready ) {
-            this._startedNodeAlready=true;
+        if( !_startedNodeAlready ) {
+            _startedNodeAlready=true;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -69,7 +69,7 @@ public class AndroidJSWebviewActivity extends AppCompatActivity {
     }
 
     public void configureWebview(int iconId){
-        this.myWebView.addJavascriptInterface(new JavaWebviewBridge(this, this.myWebView, iconId), "android");
+        this.myWebView.addJavascriptInterface(new JavaWebviewBridge(this,null ,this.myWebView, iconId), "android");
 
 
         this.myWebView.getSettings().setJavaScriptEnabled(true);

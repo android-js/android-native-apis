@@ -7,7 +7,12 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,37 +20,46 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public class Wifi {
+public class Wifi extends ReactContextBaseJavaModule {
     private WifiManager main_wifi;
     private Activity activity;
+    private ReactApplicationContext reactContext;
 
-    public Wifi(Activity activity){
+    public Wifi(@Nullable Activity activity, @Nullable ReactApplicationContext reactContext){
+        super(reactContext);
         this.activity = activity;
+        this.reactContext = reactContext;
         main_wifi = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
 
+    @ReactMethod
     public void enableWifi(){
         if(! this.main_wifi.isWifiEnabled())
             main_wifi.setWifiEnabled(true);
     }
 
+    @ReactMethod
     public void disableWifi(){
         if(this.main_wifi.isWifiEnabled())
             main_wifi.setWifiEnabled(false);
     }
 
+    @ReactMethod
     public void disconnectWifi(){
         main_wifi.disconnect();
     }
 
+    @ReactMethod
     public int getWifiState(){
         return main_wifi.getWifiState();
     }
 
+    @ReactMethod
     public boolean isWifiEnabled(){
         return main_wifi.isWifiEnabled();
     }
 
+    @ReactMethod
     public String getWifiScanResults() throws JSONException {
 //        System.out.println("wifi api called");
         List<ScanResult> res = main_wifi.getScanResults();
@@ -69,6 +83,7 @@ public class Wifi {
         return final_res.toString();
     }
 
+    @ReactMethod
     public void connectWifi(String ssid, String password){
         System.out.println("Connect Called " + ssid);
         WifiConfiguration conf = new WifiConfiguration();
@@ -83,4 +98,8 @@ public class Wifi {
         main_wifi.reconnect();
     }
 
+    @Override
+    public String getName(){
+        return "Wifi";
+    }
 }

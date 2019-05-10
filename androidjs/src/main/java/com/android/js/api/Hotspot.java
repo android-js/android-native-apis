@@ -7,20 +7,31 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+
+import com.facebook.infer.annotation.SuppressNullFieldAccess;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class Hotspot {
+public class Hotspot extends ReactContextBaseJavaModule {
     private WifiManager wifi_manager;
     private Activity activity;
     private WifiManager.LocalOnlyHotspotReservation local_reservation;
+    private ReactApplicationContext reactContext;
 
-    public Hotspot(Activity activity){
+    public Hotspot(@Nullable Activity activity, @Nullable ReactApplicationContext reactContext){
+        super(reactContext);
         this.wifi_manager = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         this.activity = activity;
+        this.reactContext = reactContext;
     }
+
+    @ReactMethod
     public void enableHotspot(String ssid) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             wifi_manager.startLocalOnlyHotspot(new WifiManager.LocalOnlyHotspotCallback() {
@@ -56,6 +67,7 @@ public class Hotspot {
         }
     }
 
+    @ReactMethod
     public void disableHotspot() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             if (this.local_reservation != null) {
@@ -69,6 +81,7 @@ public class Hotspot {
         }
     }
 
+    @ReactMethod
     public boolean isHotspotEnabled(){
         try {
             Method method = this.wifi_manager.getClass().getDeclaredMethod("isWifiApEnabled");
@@ -77,5 +90,9 @@ public class Hotspot {
         }
         catch (Throwable ignored) {}
         return false;
+    }
+
+    @Override public String getName(){
+        return "HotSpot";
     }
 }
