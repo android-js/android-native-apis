@@ -27,9 +27,9 @@ public class Hotspot extends ReactContextBaseJavaModule {
     public Hotspot(@Nullable Activity activity, @Nullable ReactApplicationContext reactContext){
         super(reactContext);
         this.activity = activity;
-        if(activity == null) this.activity = getCurrentActivity();
-        this.wifi_manager = (WifiManager) this.activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         this.reactContext = reactContext;
+        if(activity == null) this.activity = getCurrentActivity();
+        this.wifi_manager = (WifiManager) ((this.activity != null) ? this.activity : this.reactContext).getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
 
     @ReactMethod
