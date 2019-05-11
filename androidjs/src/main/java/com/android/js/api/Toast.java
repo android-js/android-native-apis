@@ -14,15 +14,15 @@ public class Toast extends ReactContextBaseJavaModule {
     public Toast(@Nullable Activity activity, @Nullable ReactApplicationContext reactContext){
         super(reactContext);
         this.activity = activity;
-        if(activity == null) this.activity = getCurrentActivity();
         this.reactContext = reactContext;
+        if(activity == null) this.activity = getCurrentActivity();
     }
 
     @ReactMethod
     public void showToast(String text, int duration){
         if(duration > 1) duration = 1;
         if(duration < 0) duration = 0;
-        android.widget.Toast toast = android.widget.Toast.makeText(this.activity, text, duration);
+        android.widget.Toast toast = android.widget.Toast.makeText((this.activity != null) ? this.activity : this.reactContext ,text, duration);
         toast.show();
     }
 

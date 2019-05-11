@@ -22,10 +22,10 @@ public class Notification extends ReactContextBaseJavaModule {
     public Notification(@Nullable Activity activity, @Nullable ReactApplicationContext reactContext, int iconId){
         super(reactContext);
         this.activity = activity;
-        if(activity == null) this.activity = getCurrentActivity();
-        this.notification_manager = (NotificationManager) this.activity.getSystemService(Context.NOTIFICATION_SERVICE);
-        this.iconId = iconId;
         this.reactContext = reactContext;
+        if(activity == null) this.activity = getCurrentActivity();
+        this.notification_manager = (NotificationManager) ((this.activity != null) ? this.activity:this.reactContext).getSystemService(Context.NOTIFICATION_SERVICE);
+        this.iconId = iconId;
     }
 //    public void setSmallIcon(){
 //
@@ -33,7 +33,7 @@ public class Notification extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initNotification(String title, String msg){
-        this.notification_builder = new NotificationCompat.Builder(this.activity);
+        this.notification_builder = new NotificationCompat.Builder((this.activity != null) ? this.activity:this.reactContext, "androidjs");
         this.notification_builder.setContentTitle(title);
         this.notification_builder.setContentText(msg);
         this.notification_builder.setSmallIcon(this.iconId);

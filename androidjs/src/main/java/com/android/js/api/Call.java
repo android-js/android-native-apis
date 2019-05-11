@@ -21,19 +21,21 @@ public class Call extends ReactContextBaseJavaModule {
     public Call(@Nullable Activity activity, @Nullable ReactApplicationContext reactContext){
         super(reactContext);
         this.activity = activity;
+        this.reactContext = reactContext;
         if(activity == null) this.activity = getCurrentActivity();
         this.callIntent = new Intent(Intent.ACTION_CALL);
-        this.reactContext = reactContext;
 
     }
 
     @ReactMethod
     public void makeCall(String number){
+        if(activity == null) this.activity = getCurrentActivity();
         callIntent.setData(Uri.parse("tel:" + number));
         if (ActivityCompat.checkSelfPermission(this.activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this.activity, new String[] {Manifest.permission.CALL_PHONE}, 2);
+        }else {
+            this.activity.startActivity(this.callIntent);
         }
-        this.activity.startActivity(this.callIntent);
     }
 
     @Override
