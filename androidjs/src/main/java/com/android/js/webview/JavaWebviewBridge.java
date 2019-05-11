@@ -10,9 +10,7 @@ import com.android.js.api.Hotspot;
 import com.android.js.api.Notification;
 import com.android.js.api.Toast;
 import com.android.js.api.Wifi;
-import com.android.js.webview.AndroidJSWebviewActivity;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactMethod;
 
 import org.json.JSONException;
 
@@ -27,22 +25,24 @@ import static android.os.Environment.DIRECTORY_PODCASTS;
 import static android.os.Environment.DIRECTORY_RINGTONES;
 
 public class JavaWebviewBridge {
-    private AndroidJSWebviewActivity activity;
+    private AndroidJSActivity activity;
     private WebView myWebView;
     private Notification notification;
     private Call call;
     private Wifi wifi;
     private Hotspot hotspot;
+    private Toast toast;
     private int iconId;
     private ReactApplicationContext reactContext;
 
-    public JavaWebviewBridge(AndroidJSWebviewActivity activity, @Nullable ReactApplicationContext reactContext, WebView myWebView, int iconId){
+    public JavaWebviewBridge(AndroidJSActivity activity, @Nullable ReactApplicationContext reactContext, WebView myWebView, int iconId){
         this.activity = activity;
         this.myWebView = myWebView;
         this.notification = new Notification(activity, reactContext,iconId);
         this.call = new Call(activity, reactContext);
         this.wifi = new Wifi(activity, reactContext);
         this.hotspot = new Hotspot(activity, reactContext);
+        this.toast = new Toast(activity, reactContext);
         this.iconId = iconId;
         this.reactContext = reactContext;
     }
@@ -106,7 +106,7 @@ public class JavaWebviewBridge {
 
     @JavascriptInterface
     public void showToast(String text, int duration){
-        Toast.showToast(this.activity, text, duration);
+        toast.showToast(text, duration);
     }
 
     @JavascriptInterface

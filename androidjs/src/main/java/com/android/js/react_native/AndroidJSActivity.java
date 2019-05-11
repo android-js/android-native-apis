@@ -10,7 +10,7 @@ import com.facebook.react.ReactPackage;
 import java.io.File;
 import java.util.List;
 
-public class AndroidJSReactNativeActivity extends ReactActivity {
+public class AndroidJSActivity extends ReactActivity {
 
     // Used to load the 'native-lib' library on application startup.
     static {

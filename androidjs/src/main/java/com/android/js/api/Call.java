@@ -20,8 +20,9 @@ public class Call extends ReactContextBaseJavaModule {
 
     public Call(@Nullable Activity activity, @Nullable ReactApplicationContext reactContext){
         super(reactContext);
-        this.callIntent = new Intent(Intent.ACTION_CALL);
         this.activity = activity;
+        if(activity == null) this.activity = getCurrentActivity();
+        this.callIntent = new Intent(Intent.ACTION_CALL);
         this.reactContext = reactContext;
 
     }
