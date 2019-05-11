@@ -8,15 +8,21 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
 public class Toast extends ReactContextBaseJavaModule {
-    public Toast(@Nullable ReactApplicationContext rectContext){
-        super(rectContext);
+    private Activity activity;
+    private ReactApplicationContext reactContext;
+
+    public Toast(@Nullable Activity activity, @Nullable ReactApplicationContext reactContext){
+        super(reactContext);
+        this.activity = activity;
+        if(activity == null) this.activity = getCurrentActivity();
+        this.reactContext = reactContext;
     }
 
     @ReactMethod
-    public static void showToast(Activity activity, String text, int duration){
+    public void showToast(String text, int duration){
         if(duration > 1) duration = 1;
         if(duration < 0) duration = 0;
-        android.widget.Toast toast = android.widget.Toast.makeText(activity, text, duration);
+        android.widget.Toast toast = android.widget.Toast.makeText(this.activity, text, duration);
         toast.show();
     }
 

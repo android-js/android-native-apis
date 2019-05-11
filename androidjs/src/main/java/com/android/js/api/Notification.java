@@ -22,7 +22,8 @@ public class Notification extends ReactContextBaseJavaModule {
     public Notification(@Nullable Activity activity, @Nullable ReactApplicationContext reactContext, int iconId){
         super(reactContext);
         this.activity = activity;
-        this.notification_manager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
+        if(activity == null) this.activity = getCurrentActivity();
+        this.notification_manager = (NotificationManager) this.activity.getSystemService(Context.NOTIFICATION_SERVICE);
         this.iconId = iconId;
         this.reactContext = reactContext;
     }

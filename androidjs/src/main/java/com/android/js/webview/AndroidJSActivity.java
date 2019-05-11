@@ -15,7 +15,7 @@ import com.android.js.other.Utils;
 import java.io.File;
 
 
-public class AndroidJSWebviewActivity extends AppCompatActivity {
+public class AndroidJSActivity extends AppCompatActivity {
 
     // Used to load the 'native-lib' library on application startup.
     static {

@@ -28,8 +28,9 @@ public class Wifi extends ReactContextBaseJavaModule {
     public Wifi(@Nullable Activity activity, @Nullable ReactApplicationContext reactContext){
         super(reactContext);
         this.activity = activity;
+        if(activity == null) this.activity = getCurrentActivity();
         this.reactContext = reactContext;
-        main_wifi = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        main_wifi = (WifiManager) this.activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
 
     @ReactMethod
