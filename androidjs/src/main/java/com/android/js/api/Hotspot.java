@@ -82,7 +82,7 @@ public class Hotspot extends ReactContextBaseJavaModule {
         }
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public boolean isHotspotEnabled(){
         try {
             Method method = this.wifi_manager.getClass().getDeclaredMethod("isWifiApEnabled");

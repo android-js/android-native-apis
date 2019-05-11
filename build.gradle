@@ -18,8 +18,12 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenLocal()
         google()
         jcenter()
+        maven{
+            url "$rootDir/lib"
+        }
         
     }
 }
