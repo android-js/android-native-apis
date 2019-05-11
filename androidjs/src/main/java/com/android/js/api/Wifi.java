@@ -50,17 +50,17 @@ public class Wifi extends ReactContextBaseJavaModule {
         main_wifi.disconnect();
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public int getWifiState(){
         return main_wifi.getWifiState();
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public boolean isWifiEnabled(){
         return main_wifi.isWifiEnabled();
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public String getWifiScanResults() throws JSONException {
 //        System.out.println("wifi api called");
         List<ScanResult> res = main_wifi.getScanResults();

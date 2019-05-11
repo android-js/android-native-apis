@@ -5,7 +5,7 @@ publish {
 
     def groupProjectID = 'com.android.js'
     def artifactProjectID = 'androidjs'
-    def publishVersionID = '1.0.4'
+    def publishVersionID = '1.0.5'
 
     userOrg = 'chhekur'
     repoName = 'androidjs'
@@ -49,5 +49,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.facebook.react:react-native:+'
+    implementation 'com.facebook.react:react-native:0.59.7'
 }

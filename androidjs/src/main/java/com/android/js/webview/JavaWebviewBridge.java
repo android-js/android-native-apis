@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
+import com.android.js.api.App;
 import com.android.js.api.Call;
 import com.android.js.api.Hotspot;
 import com.android.js.api.Notification;
@@ -32,6 +33,7 @@ public class JavaWebviewBridge {
     private Wifi wifi;
     private Hotspot hotspot;
     private Toast toast;
+    private App app;
     private int iconId;
     private ReactApplicationContext reactContext;
 
@@ -43,6 +45,7 @@ public class JavaWebviewBridge {
         this.wifi = new Wifi(activity, reactContext);
         this.hotspot = new Hotspot(activity, reactContext);
         this.toast = new Toast(activity, reactContext);
+        this.app = new App(activity, reactContext);
         this.iconId = iconId;
         this.reactContext = reactContext;
     }
@@ -54,39 +57,7 @@ public class JavaWebviewBridge {
     }
     @JavascriptInterface
     public String getPath(String name) {
-        if (name.equals("root")) {
-            return Environment.getRootDirectory().getPath();
-        } else if (name.equals("data")) {
-            return Environment.getDataDirectory().getPath();
-        } else if (name.equals("cache")) {
-            return Environment.getDownloadCacheDirectory().getPath();
-        } else if (name.equals("storage")) {
-            return Environment.getExternalStorageDirectory().getPath();
-        } else if (name.equals("alarms")) {
-            return Environment.getExternalStoragePublicDirectory(DIRECTORY_ALARMS).getPath();
-        } else if (name.equals("dcim")) {
-            return Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM).getPath();
-        } else if (name.equals("downloads")) {
-            return Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath();
-        } else if (name.equals("movies")) {
-            return Environment.getExternalStoragePublicDirectory(DIRECTORY_MOVIES).getPath();
-        } else if (name.equals("music")) {
-            return Environment.getExternalStoragePublicDirectory(DIRECTORY_MUSIC).getPath();
-        } else if (name.equals("notifications")) {
-            return Environment.getExternalStoragePublicDirectory(DIRECTORY_NOTIFICATIONS).getPath();
-        } else if (name.equals("pictures")) {
-            return Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES).getPath();
-        } else if (name.equals("podcasts")) {
-            return Environment.getExternalStoragePublicDirectory(DIRECTORY_PODCASTS).getPath();
-        } else if (name.equals("ringtones")) {
-            return Environment.getExternalStoragePublicDirectory(DIRECTORY_RINGTONES).getPath();
-        } else if (name.equals("appData")) {
-            return activity.getFilesDir().getPath();
-        } else if (name.equals("userData")) {
-            return activity.getExternalFilesDir(null).getPath();
-        } else {
-            return "-1";
-        }
+        return app.getPath(name);
     }
 
     @JavascriptInterface

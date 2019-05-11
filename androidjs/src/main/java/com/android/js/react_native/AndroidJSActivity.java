@@ -58,16 +58,6 @@ public class AndroidJSActivity extends ReactActivity {
         return "androidjs_core_react_native";
     }
 
-    @Override
-    protected boolean getUseDeveloperSupport() {
-        return false;
-    }
-
-    @Override
-    protected List<ReactPackage> getPackages() {
-        return null;
-    }
-
     /**
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.

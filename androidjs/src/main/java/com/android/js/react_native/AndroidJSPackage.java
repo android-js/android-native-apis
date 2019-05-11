@@ -3,6 +3,7 @@ package com.android.js.react_native;
 
 import android.app.Activity;
 
+import com.android.js.api.App;
 import com.android.js.api.Call;
 import com.android.js.api.Hotspot;
 import com.android.js.api.Notification;
@@ -34,6 +35,7 @@ public class AndroidJSPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext){
         List<NativeModule> modules = new ArrayList<>();
+        modules.add(new App(null, reactContext));
         modules.add(new Call(null, reactContext));
         modules.add(new Hotspot(null, reactContext));
         modules.add(new Notification(null, reactContext, this.iconId));
@@ -41,10 +43,5 @@ public class AndroidJSPackage implements ReactPackage {
         modules.add(new Wifi(null, reactContext));
 
         return modules;
-    }
-
-    @Override
-    public List<Class<? extends JavaScriptModule>> createJSModules() {
-        return null;
     }
 }
