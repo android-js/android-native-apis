@@ -150,7 +150,7 @@ public class JavaWebviewBridge {
         return this.contact.getContactsCount();
     }
 
-    public void addContact(String name, String number, String email, String company, String job_title) throws OperationApplicationException, RemoteException {
-        this.contact.addContact(name, number, email, company, job_title);
+    public void addContact(String name, String number, String email) {
+        this.contact.addContact(name, number, email);
     }
 }
