@@ -86,6 +86,16 @@ public class PermissionRequest {
                         permissionsToBeGranted.add(Manifest.permission.WRITE_SETTINGS);
                     }
                     break;
+                case "android.permission.READ_CONTACTS":
+                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                        permissionsToBeGranted.add(Manifest.permission.READ_CONTACTS);
+                    }
+                    break;
+                case "android.permission.WRITE_CONTACTS":
+                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                        permissionsToBeGranted.add(Manifest.permission.WRITE_CONTACTS);
+                    }
+                    break;
             }
         }
         String[] permissions = new String[permissionsToBeGranted.size()];

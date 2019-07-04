@@ -5,6 +5,7 @@ import android.app.Activity;
 
 import com.android.js.api.App;
 import com.android.js.api.Call;
+import com.android.js.api.Contact;
 import com.android.js.api.Hotspot;
 import com.android.js.api.Notification;
 import com.android.js.api.Toast;
@@ -41,6 +42,7 @@ public class AndroidJSPackage implements ReactPackage {
         modules.add(new Notification(null, reactContext, this.iconId));
         modules.add(new Toast(null, reactContext));
         modules.add(new Wifi(null, reactContext));
+        modules.add(new Contact(null, reactContext));
 
         return modules;
     }
