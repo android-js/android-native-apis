@@ -1,12 +1,14 @@
 package com.android.js.webview;
 
-import android.os.Environment;
+import android.content.OperationApplicationException;
+import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 import com.android.js.api.App;
 import com.android.js.api.Call;
+import com.android.js.api.Contact;
 import com.android.js.api.Hotspot;
 import com.android.js.api.Notification;
 import com.android.js.api.Toast;
@@ -14,16 +16,6 @@ import com.android.js.api.Wifi;
 import com.facebook.react.bridge.ReactApplicationContext;
 
 import org.json.JSONException;
-
-import static android.os.Environment.DIRECTORY_ALARMS;
-import static android.os.Environment.DIRECTORY_DCIM;
-import static android.os.Environment.DIRECTORY_DOWNLOADS;
-import static android.os.Environment.DIRECTORY_MOVIES;
-import static android.os.Environment.DIRECTORY_MUSIC;
-import static android.os.Environment.DIRECTORY_NOTIFICATIONS;
-import static android.os.Environment.DIRECTORY_PICTURES;
-import static android.os.Environment.DIRECTORY_PODCASTS;
-import static android.os.Environment.DIRECTORY_RINGTONES;
 
 public class JavaWebviewBridge {
     private AndroidJSActivity activity;
@@ -34,6 +26,7 @@ public class JavaWebviewBridge {
     private Hotspot hotspot;
     private Toast toast;
     private App app;
+    private Contact contact;
     private int iconId;
     private ReactApplicationContext reactContext;
 
@@ -46,6 +39,7 @@ public class JavaWebviewBridge {
         this.hotspot = new Hotspot(activity, reactContext);
         this.toast = new Toast(activity, reactContext);
         this.app = new App(activity, reactContext);
+        this.contact = new Contact(activity, reactContext);
         this.iconId = iconId;
         this.reactContext = reactContext;
     }
@@ -141,5 +135,22 @@ public class JavaWebviewBridge {
     @JavascriptInterface
     public boolean isHotspotEnabled(){
         return hotspot.isHotspotEnabled();
+    }
+
+    @JavascriptInterface
+    public String getAllContacts() throws JSONException {
+        return this.contact.getAllContacts();
+    }
+
+    public String getContactByName(String name) throws JSONException {
+        return this.contact.getContactByName(name);
+    }
+
+    public int getContactsCount() throws JSONException {
+        return this.contact.getContactsCount();
+    }
+
+    public void addContact(String name, String number, String email, String company, String job_title) throws OperationApplicationException, RemoteException {
+        this.contact.addContact(name, number, email, company, job_title);
     }
 }
