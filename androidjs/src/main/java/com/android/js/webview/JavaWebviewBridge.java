@@ -150,7 +150,7 @@ public class JavaWebviewBridge {
         return this.contact.getContactsCount();
     }
 
-    public void addContact(String name, String number, String email) {
-        this.contact.addContact(name, number, email);
+    public String addContact(String name, String number, String email) {
+        return this.contact.addContact(name, number, email);
     }
 }
