@@ -141,15 +141,15 @@ public class JavaWebviewBridge {
     public String getAllContacts() throws JSONException {
         return this.contact.getAllContacts(false);
     }
-
+    @JavascriptInterface
     public String getContactByName(String name) throws JSONException {
         return this.contact.getContactByName(name);
     }
-
+    @JavascriptInterface
     public int getContactsCount() throws JSONException {
         return this.contact.getContactsCount();
     }
-
+    @JavascriptInterface
     public String addContact(String name, String number, String email) {
         return this.contact.addContact(name, number, email);
     }
