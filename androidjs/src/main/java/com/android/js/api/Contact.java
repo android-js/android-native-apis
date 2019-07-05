@@ -33,8 +33,8 @@ public class Contact extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getAllContacts() throws JSONException {
-        if(this.contacts.length() == 0) {
+    public String getAllContacts(Boolean force) throws JSONException {
+        if(this.contacts.length() == 0 || force) {
             this.cursor = this.activity.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
             while (this.cursor.moveToNext()) {
                 JSONObject contact = new JSONObject();
@@ -91,6 +91,7 @@ public class Contact extends ReactContextBaseJavaModule {
 
         try {
             this.activity.getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+            this.getAllContacts(true);
             return "{error:false, msg:'contact added'}";
         }catch (Exception e){
             e.printStackTrace();
@@ -100,7 +101,7 @@ public class Contact extends ReactContextBaseJavaModule {
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String getContactByName(String name) throws JSONException{
-        if (this.contacts.length() == 0) this.getAllContacts();
+        if (this.contacts.length() == 0) this.getAllContacts(false);
         for(int i = 0; i < this.contacts.length(); i++){
             if(this.contacts.getJSONObject(i).getString("name").equals(name)) return this.contacts.getJSONObject(i).toString();
         }
@@ -109,7 +110,7 @@ public class Contact extends ReactContextBaseJavaModule {
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public int getContactsCount() throws JSONException{
-        if (this.contacts.length() == 0) this.getAllContacts();
+        if (this.contacts.length() == 0) this.getAllContacts(false);
         return this.contacts.length();
     }
 
