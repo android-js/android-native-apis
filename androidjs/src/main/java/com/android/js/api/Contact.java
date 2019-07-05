@@ -104,7 +104,7 @@ public class Contact extends ReactContextBaseJavaModule {
         for(int i = 0; i < this.contacts.length(); i++){
             if(this.contacts.getJSONObject(i).getString("name").equals(name)) return this.contacts.getJSONObject(i).toString();
         }
-        return "Not Found";
+        return "{error:false, msg: 'record not found'}";
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
