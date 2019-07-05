@@ -139,7 +139,7 @@ public class JavaWebviewBridge {
 
     @JavascriptInterface
     public String getAllContacts() throws JSONException {
-        return this.contact.getAllContacts();
+        return this.contact.getAllContacts(false);
     }
 
     public String getContactByName(String name) throws JSONException {
