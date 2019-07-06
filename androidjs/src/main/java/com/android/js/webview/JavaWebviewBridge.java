@@ -1,7 +1,6 @@
 package com.android.js.webview;
 
-import android.content.OperationApplicationException;
-import android.os.RemoteException;
+
 import android.support.annotation.Nullable;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -9,6 +8,7 @@ import android.webkit.WebView;
 import com.android.js.api.App;
 import com.android.js.api.Call;
 import com.android.js.api.Contact;
+import com.android.js.api.DeepLink;
 import com.android.js.api.Hotspot;
 import com.android.js.api.Notification;
 import com.android.js.api.Toast;
@@ -27,6 +27,7 @@ public class JavaWebviewBridge {
     private Toast toast;
     private App app;
     private Contact contact;
+    private DeepLink deepLink;
     private int iconId;
     private ReactApplicationContext reactContext;
 
@@ -40,6 +41,7 @@ public class JavaWebviewBridge {
         this.toast = new Toast(activity, reactContext);
         this.app = new App(activity, reactContext);
         this.contact = new Contact(activity, reactContext);
+        this.deepLink = new DeepLink(activity, reactContext);
         this.iconId = iconId;
         this.reactContext = reactContext;
     }
@@ -152,5 +154,10 @@ public class JavaWebviewBridge {
     @JavascriptInterface
     public String addContact(String name, String number, String email) {
         return this.contact.addContact(name, number, email);
+    }
+
+    @JavascriptInterface
+    public String getDeepLink(){
+        return this.deepLink.getLink();
     }
 }
