@@ -25,7 +25,9 @@ public class DeepLink extends ReactContextBaseJavaModule {
         Intent intent = this.activity.getIntent();
         String action = intent.getAction();
         Uri data = intent.getData();
-        return data.toString();
+        if(data != null)
+            return data.toString();
+        else return "-1";
     }
 
     @Override
