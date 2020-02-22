@@ -92,10 +92,10 @@ public class Contact extends ReactContextBaseJavaModule {
         try {
             this.activity.getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
             this.getAllContacts(true);
-            return "{error:false, msg:'contact added'}";
+            return "{\"error\": false, \"msg\": \"contact added\"}";
         }catch (Exception e){
             e.printStackTrace();
-            return "{error:true, err: '"+ e.toString() + "'}";
+            return "{\"error\": true, \"err\": \""+ e.toString() + "\"}";
         }
     }
 
@@ -105,7 +105,7 @@ public class Contact extends ReactContextBaseJavaModule {
         for(int i = 0; i < this.contacts.length(); i++){
             if(this.contacts.getJSONObject(i).getString("name").equals(name)) return this.contacts.getJSONObject(i).toString();
         }
-        return "{error:false, msg: 'record not found'}";
+        return "{\"error\": false, \"msg\": \"record not found\"}";
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)

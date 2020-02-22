@@ -11,6 +11,7 @@ import com.android.js.api.Contact;
 import com.android.js.api.DeepLink;
 import com.android.js.api.Hotspot;
 import com.android.js.api.Notification;
+import com.android.js.api.SMS;
 import com.android.js.api.Toast;
 import com.android.js.api.Wifi;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -28,6 +29,7 @@ public class JavaWebviewBridge {
     private App app;
     private Contact contact;
     private DeepLink deepLink;
+    private SMS sms;
     private int iconId;
     private ReactApplicationContext reactContext;
 
@@ -42,6 +44,7 @@ public class JavaWebviewBridge {
         this.app = new App(activity, reactContext);
         this.contact = new Contact(activity, reactContext);
         this.deepLink = new DeepLink(activity, reactContext);
+        this.sms = new SMS(activity, reactContext);
         this.iconId = iconId;
         this.reactContext = reactContext;
     }
@@ -159,5 +162,10 @@ public class JavaWebviewBridge {
     @JavascriptInterface
     public String getDeepLink(){
         return this.deepLink.getLink();
+    }
+
+    @JavascriptInterface
+    public String sendSMS(String number, String message) {
+        return this.sms.sendSMS(number, message);
     }
 }

@@ -96,6 +96,11 @@ public class PermissionRequest {
                         permissionsToBeGranted.add(Manifest.permission.WRITE_CONTACTS);
                     }
                     break;
+                case "android.permission.SEND_SMS":
+                    if(ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                        permissionsToBeGranted.add(Manifest.permission.SEND_SMS);
+                    }
+                    break;
             }
         }
         String[] permissions = new String[permissionsToBeGranted.size()];
