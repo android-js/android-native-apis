@@ -10,6 +10,7 @@ import com.android.js.api.Call;
 import com.android.js.api.Contact;
 import com.android.js.api.DeepLink;
 import com.android.js.api.Hotspot;
+import com.android.js.api.Location;
 import com.android.js.api.Notification;
 import com.android.js.api.SMS;
 import com.android.js.api.Toast;
@@ -30,6 +31,7 @@ public class JavaWebviewBridge {
     private Contact contact;
     private DeepLink deepLink;
     private SMS sms;
+    private Location location;
     private int iconId;
     private ReactApplicationContext reactContext;
 
@@ -45,6 +47,7 @@ public class JavaWebviewBridge {
         this.contact = new Contact(activity, reactContext);
         this.deepLink = new DeepLink(activity, reactContext);
         this.sms = new SMS(activity, reactContext);
+        this.location = new Location(activity, reactContext);
         this.iconId = iconId;
         this.reactContext = reactContext;
     }
@@ -167,5 +170,10 @@ public class JavaWebviewBridge {
     @JavascriptInterface
     public String sendSMS(String number, String message) {
         return this.sms.sendSMS(number, message);
+    }
+
+    @JavascriptInterface
+    public String getLocation(){
+        return this.location.getLocation();
     }
 }
