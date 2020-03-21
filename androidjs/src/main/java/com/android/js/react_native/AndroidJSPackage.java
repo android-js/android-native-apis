@@ -9,6 +9,7 @@ import com.android.js.api.Contact;
 import com.android.js.api.DeepLink;
 import com.android.js.api.Hotspot;
 import com.android.js.api.Location;
+import com.android.js.api.MobileData;
 import com.android.js.api.Notification;
 import com.android.js.api.SMS;
 import com.android.js.api.Toast;
@@ -49,6 +50,7 @@ public class AndroidJSPackage implements ReactPackage {
         modules.add(new DeepLink(null, reactContext));
         modules.add(new SMS(null, reactContext));
         modules.add(new Location(null, reactContext));
+        modules.add(new MobileData(null, reactContext));
 
         return modules;
     }

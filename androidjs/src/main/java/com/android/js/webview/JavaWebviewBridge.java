@@ -11,6 +11,7 @@ import com.android.js.api.Contact;
 import com.android.js.api.DeepLink;
 import com.android.js.api.Hotspot;
 import com.android.js.api.Location;
+import com.android.js.api.MobileData;
 import com.android.js.api.Notification;
 import com.android.js.api.SMS;
 import com.android.js.api.Toast;
@@ -32,6 +33,7 @@ public class JavaWebviewBridge {
     private DeepLink deepLink;
     private SMS sms;
     private Location location;
+    private MobileData mobileData;
     private int iconId;
     private ReactApplicationContext reactContext;
 
@@ -48,6 +50,7 @@ public class JavaWebviewBridge {
         this.deepLink = new DeepLink(activity, reactContext);
         this.sms = new SMS(activity, reactContext);
         this.location = new Location(activity, reactContext);
+        this.mobileData = new MobileData(activity, reactContext);
         this.iconId = iconId;
         this.reactContext = reactContext;
     }
@@ -175,5 +178,10 @@ public class JavaWebviewBridge {
     @JavascriptInterface
     public String getLocation(){
         return this.location.getLocation();
+    }
+
+    @JavascriptInterface
+    public boolean isMobileDataEnabled() {
+        return this.mobileData.isEnabled();
     }
 }
