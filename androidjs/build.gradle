@@ -5,7 +5,7 @@ publish {
 
     def groupProjectID = 'com.android.js'
     def artifactProjectID = 'androidjs'
-    def publishVersionID = '1.0.16'
+    def publishVersionID = '1.0.17'
 
     userOrg = 'chhekur'
     repoName = 'androidjs'
