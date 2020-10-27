@@ -8,35 +8,27 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
-import com.android.js.R;
-import com.android.js.webview.AndroidJSActivity;
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
 
-public class Notification extends ReactContextBaseJavaModule {
+public class Notification {
     private Activity activity;
     private NotificationCompat.Builder notification_builder;
     private NotificationManager notification_manager;
     private NotificationCompat.InboxStyle inbox_style;
     private NotificationChannel notification_channel;
+    private String className;
     private Intent intent;
     private int iconId;
-    private ReactApplicationContext reactContext;
 
     @SuppressLint("PrivateApi")
-    public Notification(@Nullable Activity activity, @Nullable ReactApplicationContext reactContext, int iconId){
-        super(reactContext);
+    public Notification(Activity activity, int iconId, String className){
         this.activity = activity;
-        this.reactContext = reactContext;
-        if(activity == null) this.activity = getCurrentActivity();
-        this.notification_manager = (NotificationManager) ((this.activity != null) ? this.activity:this.reactContext).getSystemService(Context.NOTIFICATION_SERVICE);
+        this.notification_manager = (NotificationManager) (this.activity.getSystemService(Context.NOTIFICATION_SERVICE));
         this.iconId = iconId;
+        this.className = className;
         try {
-            this.intent = new Intent(this.activity, Class.forName("com.android.js.webview.MainActivity"));
+            this.intent = new Intent(this.activity, Class.forName(this.className));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -52,11 +44,10 @@ public class Notification extends ReactContextBaseJavaModule {
 //
 //    }
 
-    @ReactMethod
     public void initNotification(String title, String msg){
         PendingIntent pendingIntent = PendingIntent.getActivity(this.activity, 0, this.intent, 0);
 
-        this.notification_builder = new NotificationCompat.Builder((this.activity != null) ? this.activity:this.reactContext, "androidjs");
+        this.notification_builder = new NotificationCompat.Builder(this.activity, "androidjs");
         this.notification_builder.setContentTitle(title);
         this.notification_builder.setContentText(msg);
         this.notification_builder.setSmallIcon(this.iconId);
@@ -67,12 +58,10 @@ public class Notification extends ReactContextBaseJavaModule {
 
     }
 
-    @ReactMethod
     public void showNotification(int id){
         this.notification_manager.notify(id, notification_builder.build());
     }
 
-    @ReactMethod
     public void initBigNotification(String title, String [] msg){
         this.inbox_style = new NotificationCompat.InboxStyle();
         inbox_style.setBigContentTitle(title);
@@ -80,10 +69,5 @@ public class Notification extends ReactContextBaseJavaModule {
             inbox_style.addLine(msg[i]);
         }
         notification_builder.setStyle(inbox_style);
-    }
-
-    @Override
-    public String getName(){
-        return "Notification";
     }
 }

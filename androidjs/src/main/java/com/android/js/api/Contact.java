@@ -2,15 +2,10 @@ package com.android.js.api;
 
 import android.app.Activity;
 import android.content.ContentProviderOperation;
-import android.content.OperationApplicationException;
-import android.database.Cursor;
-import android.os.RemoteException;
-import android.provider.ContactsContract;
-import android.support.annotation.Nullable;
 
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
+import android.database.Cursor;
+
+import android.provider.ContactsContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,21 +13,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Contact extends ReactContextBaseJavaModule {
+public class Contact {
     private Activity activity;
-    private ReactApplicationContext reactContext;
     private Cursor cursor;
     private JSONArray contacts;
 
-    public Contact(@Nullable Activity activity, @Nullable ReactApplicationContext reactContext){
-        super(reactContext);
+    public Contact(Activity activity){
         this.activity = activity;
-        this.reactContext = reactContext;
-        if(activity == null) this.activity = reactContext.getCurrentActivity();
         contacts = new JSONArray();
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
     public String getAllContacts(Boolean force) throws JSONException {
         if(this.contacts.length() == 0 || force) {
             this.cursor = this.activity.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
@@ -57,7 +47,6 @@ public class Contact extends ReactContextBaseJavaModule {
         return this.contacts.toString();
     }
 
-    @ReactMethod
     public String addContact(String name, String number, String email){
         ArrayList< ContentProviderOperation > ops = new ArrayList <ContentProviderOperation> ();
         ops.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
@@ -99,7 +88,6 @@ public class Contact extends ReactContextBaseJavaModule {
         }
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
     public String getContactByName(String name) throws JSONException{
         if (this.contacts.length() == 0) this.getAllContacts(false);
         for(int i = 0; i < this.contacts.length(); i++){
@@ -108,14 +96,8 @@ public class Contact extends ReactContextBaseJavaModule {
         return "{\"error\": false, \"msg\": \"record not found\"}";
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
     public int getContactsCount() throws JSONException{
         if (this.contacts.length() == 0) this.getAllContacts(false);
         return this.contacts.length();
-    }
-
-    @Override
-    public String getName(){
-        return "Contact";
     }
 }

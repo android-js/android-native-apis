@@ -1,40 +1,43 @@
 package com.android.js.api;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 
-import com.facebook.infer.annotation.SuppressNullFieldAccess;
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
+import android.support.v4.app.ActivityCompat;
+
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class Hotspot extends ReactContextBaseJavaModule {
+public class Hotspot {
     private WifiManager wifi_manager;
     private Activity activity;
     private WifiManager.LocalOnlyHotspotReservation local_reservation;
-    private ReactApplicationContext reactContext;
 
-    public Hotspot(@Nullable Activity activity, @Nullable ReactApplicationContext reactContext){
-        super(reactContext);
+    public Hotspot(Activity activity) {
         this.activity = activity;
-        this.reactContext = reactContext;
-        if(activity == null) this.activity = getCurrentActivity();
-        this.wifi_manager = (WifiManager) ((this.activity != null) ? this.activity : this.reactContext).getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        this.wifi_manager = (WifiManager) (this.activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE));
     }
 
-    @ReactMethod
     public void enableHotspot(String ssid) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (ActivityCompat.checkSelfPermission(this.activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             wifi_manager.startLocalOnlyHotspot(new WifiManager.LocalOnlyHotspotCallback() {
                 @SuppressLint("SetTextI18n")
                 @Override
@@ -68,7 +71,6 @@ public class Hotspot extends ReactContextBaseJavaModule {
         }
     }
 
-    @ReactMethod
     public void disableHotspot() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             if (this.local_reservation != null) {
@@ -82,7 +84,6 @@ public class Hotspot extends ReactContextBaseJavaModule {
         }
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
     public boolean isHotspotEnabled(){
         try {
             Method method = this.wifi_manager.getClass().getDeclaredMethod("isWifiApEnabled");
@@ -91,9 +92,5 @@ public class Hotspot extends ReactContextBaseJavaModule {
         }
         catch (Throwable ignored) {}
         return false;
-    }
-
-    @Override public String getName(){
-        return "HotSpot";
     }
 }

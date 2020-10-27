@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 
+import com.android.js.common.JavaWebviewBridge;
 import com.android.js.other.Utils;
 
 import java.io.File;
@@ -72,7 +73,7 @@ public class AndroidJSActivity extends AppCompatActivity {
     }
 
     public void configureWebview(int iconId){
-        this.myWebView.addJavascriptInterface(new JavaWebviewBridge(this,null ,this.myWebView, iconId), "android");
+        this.myWebView.addJavascriptInterface(new JavaWebviewBridge(this ,this.myWebView, iconId, "com.android.js.webview.MainActivity"), "android");
 
 
         this.myWebView.getSettings().setJavaScriptEnabled(true);

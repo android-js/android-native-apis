@@ -8,27 +8,17 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
-
-import javax.annotation.Nullable;
-
 import static android.content.Context.LOCATION_SERVICE;
 
-public class Location extends ReactContextBaseJavaModule implements LocationListener {
+public class Location implements LocationListener {
     private Activity activity;
-    private ReactApplicationContext reactContext;
     private LocationManager locationManager;
     private android.location.Location location;
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
 
-    public Location(@Nullable Activity activity, @Nullable ReactApplicationContext reactContext) {
-        super(reactContext);
+    public Location(Activity activity) {
         this.activity = activity;
-        this.reactContext = reactContext;
-        if (activity == null) this.activity = reactContext.getCurrentActivity();
         this.locationManager = (LocationManager) this.activity.getSystemService(LOCATION_SERVICE);
     }
 
@@ -36,7 +26,6 @@ public class Location extends ReactContextBaseJavaModule implements LocationList
         return this.locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
     public String getLocation() {
         if (isGPSEnable()) {
             try {
@@ -67,11 +56,6 @@ public class Location extends ReactContextBaseJavaModule implements LocationList
         } else {
             return "{\"error\": true, \"msg\": \"GPS is disabled\"}";
         }
-    }
-
-    @Override
-    public String getName(){
-        return "Location";
     }
 
     @Override

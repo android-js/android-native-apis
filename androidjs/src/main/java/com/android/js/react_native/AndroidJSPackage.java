@@ -3,17 +3,17 @@ package com.android.js.react_native;
 
 import android.app.Activity;
 
-import com.android.js.api.App;
-import com.android.js.api.Call;
-import com.android.js.api.Contact;
-import com.android.js.api.DeepLink;
-import com.android.js.api.Hotspot;
-import com.android.js.api.Location;
-import com.android.js.api.MobileData;
-import com.android.js.api.Notification;
-import com.android.js.api.SMS;
-import com.android.js.api.Toast;
-import com.android.js.api.Wifi;
+import com.android.js.react_native.api.App;
+import com.android.js.react_native.api.Call;
+import com.android.js.react_native.api.Contact;
+import com.android.js.react_native.api.DeepLink;
+import com.android.js.react_native.api.Hotspot;
+import com.android.js.react_native.api.Location;
+import com.android.js.react_native.api.MobileData;
+import com.android.js.react_native.api.Notification;
+import com.android.js.react_native.api.SMS;
+import com.android.js.react_native.api.Toast;
+import com.android.js.react_native.api.Wifi;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
@@ -40,17 +40,17 @@ public class AndroidJSPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext){
         List<NativeModule> modules = new ArrayList<>();
-        modules.add(new App(null, reactContext));
-        modules.add(new Call(null, reactContext));
-        modules.add(new Hotspot(null, reactContext));
-        modules.add(new Notification(null, reactContext, this.iconId));
-        modules.add(new Toast(null, reactContext));
-        modules.add(new Wifi(null, reactContext));
-        modules.add(new Contact(null, reactContext));
-        modules.add(new DeepLink(null, reactContext));
-        modules.add(new SMS(null, reactContext));
-        modules.add(new Location(null, reactContext));
-        modules.add(new MobileData(null, reactContext));
+        modules.add((NativeModule) new App(reactContext));
+        modules.add(new Call(reactContext));
+        modules.add(new Hotspot(reactContext));
+        modules.add(new Notification(reactContext, this.iconId));
+        modules.add(new Toast(reactContext));
+        modules.add(new Wifi(reactContext));
+        modules.add(new Contact(reactContext));
+        modules.add(new DeepLink(reactContext));
+        modules.add(new SMS(reactContext));
+        modules.add(new Location(reactContext));
+        modules.add(new MobileData(reactContext));
 
         return modules;
     }

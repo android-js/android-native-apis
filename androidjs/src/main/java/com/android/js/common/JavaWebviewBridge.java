@@ -1,7 +1,7 @@
-package com.android.js.webview;
+package com.android.js.common;
 
 
-import android.support.annotation.Nullable;
+import android.app.Activity;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
@@ -16,12 +16,11 @@ import com.android.js.api.Notification;
 import com.android.js.api.SMS;
 import com.android.js.api.Toast;
 import com.android.js.api.Wifi;
-import com.facebook.react.bridge.ReactApplicationContext;
 
 import org.json.JSONException;
 
 public class JavaWebviewBridge {
-    private AndroidJSActivity activity;
+    private Activity activity;
     private WebView myWebView;
     private Notification notification;
     private Call call;
@@ -35,24 +34,25 @@ public class JavaWebviewBridge {
     private Location location;
     private MobileData mobileData;
     private int iconId;
-    private ReactApplicationContext reactContext;
+    private String className;
 
-    public JavaWebviewBridge(AndroidJSActivity activity, @Nullable ReactApplicationContext reactContext, WebView myWebView, int iconId){
+    public JavaWebviewBridge(Activity activity, WebView myWebView, int iconId, String className){
         this.activity = activity;
         this.myWebView = myWebView;
-        this.notification = new Notification(activity, reactContext,iconId);
-        this.call = new Call(activity, reactContext);
-        this.wifi = new Wifi(activity, reactContext);
-        this.hotspot = new Hotspot(activity, reactContext);
-        this.toast = new Toast(activity, reactContext);
-        this.app = new App(activity, reactContext);
-        this.contact = new Contact(activity, reactContext);
-        this.deepLink = new DeepLink(activity, reactContext);
-        this.sms = new SMS(activity, reactContext);
-        this.location = new Location(activity, reactContext);
-        this.mobileData = new MobileData(activity, reactContext);
+        this.notification = new Notification(activity, iconId, className);
+        this.call = new Call(activity);
+        this.wifi = new Wifi(activity);
+        this.hotspot = new Hotspot(activity);
+        this.toast = new Toast(activity);
+        this.app = new App(activity);
+        this.contact = new Contact(activity);
+        this.deepLink = new DeepLink(activity);
+        this.sms = new SMS(activity);
+        this.location = new Location(activity);
+        this.mobileData = new MobileData(activity);
         this.iconId = iconId;
-        this.reactContext = reactContext;
+        this.className = className;
+        this.className = className;
     }
 
     @JavascriptInterface
