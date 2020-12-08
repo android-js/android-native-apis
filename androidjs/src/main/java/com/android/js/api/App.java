@@ -5,10 +5,10 @@ import android.os.Environment;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
-import java.util.HashMap;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import org.json.JSONObject;
+import org.json.JSONException;
 
 import static android.os.Environment.DIRECTORY_ALARMS;
 import static android.os.Environment.DIRECTORY_DCIM;
@@ -19,8 +19,6 @@ import static android.os.Environment.DIRECTORY_NOTIFICATIONS;
 import static android.os.Environment.DIRECTORY_PICTURES;
 import static android.os.Environment.DIRECTORY_PODCASTS;
 import static android.os.Environment.DIRECTORY_RINGTONES;
-
-import static com.android.js.other.Utils.exec;
 
 public class App {
     private Activity activity;
@@ -65,21 +63,21 @@ public class App {
         }
     }
 
-    public static Map<String, String> exec(String[] cmdarray) { 
-        Map<String, String> result = new HashMap<String, String>();
+   public String exec(String[] cmdarray) throws JSONException { 
+        JSONObject result = new JSONObject();
         try { 
             Process process = Runtime.getRuntime().exec(cmdarray);
             process.waitFor();
-            result.put("status", String.valueOf(process.exitValue()));
+            result.put("status", process.exitValue());
             result.put("stdout", readStream(process.getInputStream()));
             result.put("stderr", readStream(process.getErrorStream()));
         } catch (Exception e) {
             result.put("error", e.getMessage());
         }
-        return result;
+        return result.toString();
     }
 
-    private static String readStream(InputStream stream) throws IOException {
+    private String readStream(InputStream stream) throws IOException {
         BufferedReader reader = new BufferedReader(
             new InputStreamReader(stream));
         StringBuilder content = new StringBuilder(); 

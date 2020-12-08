@@ -66,6 +66,11 @@ public class JavaWebviewBridge {
     }
 
     @JavascriptInterface
+    public static String exec(String[] cmdarray) throws JSONException { 
+        return app.exec(cmdarray);
+    }
+
+    @JavascriptInterface
     public void initNotification(String title, String msg){
         notification.initNotification(title, msg);
     }

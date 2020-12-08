@@ -3,6 +3,7 @@ package com.android.js.react_native.api;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import org.json.JSONException;
 
 public class App extends ReactContextBaseJavaModule {
     private ReactApplicationContext reactContext;
@@ -17,6 +18,11 @@ public class App extends ReactContextBaseJavaModule {
     @ReactMethod(isBlockingSynchronousMethod = true)
     public String getPath(String name) {
         return app.getPath(name);
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public static String exec(String[] cmdarray) throws JSONException { 
+        return app.exec(cmdarray);
     }
 
     @Override
