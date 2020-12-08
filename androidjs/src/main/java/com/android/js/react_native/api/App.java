@@ -21,7 +21,7 @@ public class App extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public static String exec(String[] cmdarray) throws JSONException { 
+    public String exec(String[] cmdarray) throws JSONException { 
         return app.exec(cmdarray);
     }
 
