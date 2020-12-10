@@ -3,6 +3,14 @@ package com.android.js.api;
 import android.app.Activity;
 import android.os.Environment;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import org.json.JSONObject;
+import org.json.JSONException;
+
 import static android.os.Environment.DIRECTORY_ALARMS;
 import static android.os.Environment.DIRECTORY_DCIM;
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
@@ -54,5 +62,33 @@ public class App {
         } else {
             return "-1";
         }
+    }
+
+   public String exec(String[] cmdarray) throws JSONException {
+        JSONObject result = new JSONObject();
+        try {
+            Process process = Runtime.getRuntime().exec(cmdarray, null,
+                new File(this.activity.getFilesDir().getPath()));
+            process.waitFor();
+            result.put("status", process.exitValue());
+            result.put("stdout", readStream(process.getInputStream()));
+            result.put("stderr", readStream(process.getErrorStream()));
+        } catch (Exception e) {
+            result.put("error", e.getMessage());
+        }
+        return result.toString();
+    }
+
+    private String readStream(InputStream stream) throws IOException {
+        BufferedReader reader = new BufferedReader(
+            new InputStreamReader(stream));
+        StringBuilder content = new StringBuilder();
+        int cnt = 0;
+        String s;
+        while((s = reader.readLine()) != null) {
+            content.append(s + "\n");
+            cnt++;
+        }
+        return cnt == 1 ? content.toString().trim() : content.toString();
     }
 }
