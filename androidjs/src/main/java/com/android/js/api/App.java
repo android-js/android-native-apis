@@ -3,6 +3,7 @@ package com.android.js.api;
 import android.app.Activity;
 import android.os.Environment;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -66,7 +67,8 @@ public class App {
    public String exec(String[] cmdarray) throws JSONException { 
         JSONObject result = new JSONObject();
         try { 
-            Process process = Runtime.getRuntime().exec(cmdarray);
+            Process process = Runtime.getRuntime().exec(cmdarray, null,
+                new File(this.activity.getFilesDir().getPath()));
             process.waitFor();
             result.put("status", process.exitValue());
             result.put("stdout", readStream(process.getInputStream()));
