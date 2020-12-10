@@ -64,9 +64,9 @@ public class App {
         }
     }
 
-   public String exec(String[] cmdarray) throws JSONException { 
+   public String exec(String[] cmdarray) throws JSONException {
         JSONObject result = new JSONObject();
-        try { 
+        try {
             Process process = Runtime.getRuntime().exec(cmdarray, null,
                 new File(this.activity.getFilesDir().getPath()));
             process.waitFor();
@@ -82,11 +82,13 @@ public class App {
     private String readStream(InputStream stream) throws IOException {
         BufferedReader reader = new BufferedReader(
             new InputStreamReader(stream));
-        StringBuilder content = new StringBuilder(); 
+        StringBuilder content = new StringBuilder();
+        int cnt = 0;
         String s;
         while((s = reader.readLine()) != null) {
             content.append(s + "\n");
+            cnt++;
         }
-        return content.toString().trim();
+        return cnt == 1 ? content.toString().trim() : content.toString();
     }
 }
