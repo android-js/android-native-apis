@@ -87,6 +87,6 @@ public class App {
         while((s = reader.readLine()) != null) {
             content.append(s + "\n");
         }
-        return content.toString();
+        return content.toString().trim();
     }
 }
