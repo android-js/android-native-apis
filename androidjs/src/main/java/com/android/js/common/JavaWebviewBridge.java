@@ -67,6 +67,12 @@ public class JavaWebviewBridge {
         this.mobileData = new MobileData(activity);
         this.notification = new Notification(activity, iconId, className);
     }
+	
+    @JavascriptInterface
+    public String helloWorld(){
+        System.out.println("Java IPC Works");
+        return "Hello World";
+    }
         
     @JavascriptInterface
     public void setVolume( int volume ) {
