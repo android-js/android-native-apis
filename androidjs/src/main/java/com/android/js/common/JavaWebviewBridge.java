@@ -30,7 +30,6 @@ import android.support.v7.app.AppCompatActivity;
 import org.json.JSONException;
 
 public class JavaWebviewBridge {
-
     private int iconId;
     private Activity activity;
     private WebView myWebView;
@@ -68,15 +67,49 @@ public class JavaWebviewBridge {
         this.mobileData = new MobileData(activity);
         this.notification = new Notification(activity, iconId, className);
     }
-
+        
     @JavascriptInterface
-    public String helloWorld(){
-        System.out.println("Java IPC Works");
-        return "Hello World";
+    public void setVolume( int volume ) {
+    	AudioManager audioManager = (AudioManager) this.activity.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+		audioManager.setStreamVolume( AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_SHOW_UI );
     }
+    
+    @JavascriptInterface
+    public void increaseVolume() {
+    	AudioManager audioManager = (AudioManager) this.activity.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+		audioManager.adjustVolume( AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI );
+    }
+    
+    @JavascriptInterface
+    public void decreaseVolume() {
+    	AudioManager audioManager = (AudioManager) this.activity.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+		audioManager.adjustVolume( AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI );   
+    }
+    
+    @JavascriptInterface
+    public void webviewClearCache( boolean disk ){
+        this.myWebView.clearCache( disk );
+    }
+    
+    @JavascriptInterface
+    public void webviewClearFormatData(){
+        this.myWebView.clearFormData();
+    }
+    
+    @JavascriptInterface
+    public void webviewClearHistory(){
+        this.myWebView.clearHistory();
+    }
+      
     @JavascriptInterface
     public String getPath(String name) {
         return app.getPath(name);
+    }
+    
+    @JavascriptInterface
+    public void closeApp(){
+    	this.activity.finish();
+		System.exit(0);
     }
 
     @JavascriptInterface
@@ -166,14 +199,17 @@ public class JavaWebviewBridge {
     public String getAllContacts() throws JSONException {
         return this.contact.getAllContacts(false);
     }
+    
     @JavascriptInterface
     public String getContactByName(String name) throws JSONException {
         return this.contact.getContactByName(name);
     }
+    
     @JavascriptInterface
     public int getContactsCount() throws JSONException {
         return this.contact.getContactsCount();
     }
+    
     @JavascriptInterface
     public String addContact(String name, String number, String email) {
         return this.contact.addContact(name, number, email);
@@ -240,4 +276,6 @@ public class JavaWebviewBridge {
     }
      
     // TODO: Contribution XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX //
+    
+    
 }
