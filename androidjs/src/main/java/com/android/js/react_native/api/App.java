@@ -11,7 +11,7 @@ public class App extends ReactContextBaseJavaModule {
     public App(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        this.app = new com.android.js.api.App(reactContext.getCurrentActivity());
+        this.app = new com.android.js.api.App(reactContext.getCurrentActivity(), null);
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)

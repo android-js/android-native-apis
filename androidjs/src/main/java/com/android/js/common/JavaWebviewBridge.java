@@ -44,7 +44,7 @@ public class JavaWebviewBridge {
         this.wifi = new Wifi(activity);
         this.hotspot = new Hotspot(activity);
         this.toast = new Toast(activity);
-        this.app = new App(activity);
+        this.app = new App(activity, myWebView);
         this.contact = new Contact(activity);
         this.deepLink = new DeepLink(activity);
         this.sms = new SMS(activity);
@@ -183,5 +183,10 @@ public class JavaWebviewBridge {
     @JavascriptInterface
     public boolean isMobileDataEnabled() {
         return this.mobileData.isEnabled();
+    }
+
+    @JavascriptInterface
+    public void setDefaultFontSize(int fontSize) {
+        this.app.setDefaultFontSize(fontSize);
     }
 }

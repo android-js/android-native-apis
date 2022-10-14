@@ -2,6 +2,9 @@ package com.android.js.api;
 
 import android.app.Activity;
 import android.os.Environment;
+import android.support.annotation.Nullable;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import static android.os.Environment.DIRECTORY_ALARMS;
 import static android.os.Environment.DIRECTORY_DCIM;
@@ -15,9 +18,11 @@ import static android.os.Environment.DIRECTORY_RINGTONES;
 
 public class App {
     private Activity activity;
+    private WebView webView;
 
-    public App(Activity activity){
+    public App(Activity activity, @Nullable WebView webView){
         this.activity = activity;
+        this.webView = webView;
     }
 
     public String getPath(String name) {
@@ -54,5 +59,16 @@ public class App {
         } else {
             return "-1";
         }
+    }
+
+    public void setDefaultFontSize(final int fontSize) {
+        if (this.webView == null) return;
+        this.webView.post(new Runnable() {
+            @Override
+            public void run() {
+                WebSettings webSettings = webView.getSettings();
+                webSettings.setDefaultFontSize(fontSize);
+            }
+        });
     }
 }
